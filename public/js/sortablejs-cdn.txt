@@ -1,0 +1,2 @@
+// SortableJS CDN for drag & drop (touch/mobile support)
+// https://sortablejs.github.io/Sortable/

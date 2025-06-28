@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes slide-up {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.4s ease-out;
+}
+
+@layer components {
+    .btn-primary {
+        @apply bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded;
+    }
+
+    button, [type='button'], [type='submit'], [type='reset'] {
+        @apply bg-blue-500 hover:bg-blue-600 text-white !important;
+    }
+}
