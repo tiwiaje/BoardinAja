@@ -619,8 +619,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1><i class="fas fa-plus-circle"></i> Create New Task</h1>
-            <p>Add a new task to your board</p>
+            <h1><i class="fas fa-plus-circle"></i>Buat Tugas Baru</h1>
+            <p>Klik ini kalau kamu suka hidup yang menantang dan deadline yang menjerat.</p>
         </div>
 
         <div class="form-card">
@@ -657,7 +657,7 @@
                 <!-- Task Title -->
                 <div class="form-group">
                     <label for="title" class="form-label">
-                        <i class="fas fa-heading"></i> Task Title *
+                        <i class="fas fa-heading"></i> Judul *
                     </label>
                     <input type="text"
                         id="title"
@@ -674,7 +674,7 @@
                 <!-- Task Description -->
                 <div class="form-group">
                     <label for="description" class="form-label">
-                        <i class="fas fa-align-left"></i> Description
+                        <i class="fas fa-align-left"></i> Deskripsi
                     </label>
                     <textarea id="description"
                         name="description"
@@ -689,7 +689,7 @@
                 <!-- Priority -->
                 <div class="form-group">
                     <label class="form-label">
-                        <i class="fas fa-exclamation-circle"></i> Priority *
+                        <i class="fas fa-exclamation-circle"></i> Prioritas *
                     </label>
                     <div class="priority-options">
                         <div class="priority-option">
@@ -750,7 +750,7 @@
                 <!-- Category (Optional) -->
                 <div class="form-group">
                     <label for="category" class="form-label">
-                        <i class="fas fa-tag"></i> Category
+                        <i class="fas fa-tag"></i> Kategori
                     </label>
                     <select id="category" name="category" class="form-select @error('category') error @enderror">
                         <option value="">Select category...</option>
@@ -768,10 +768,10 @@
                 <!-- Action Buttons -->
                 <div class="button-group">
                     <a href="{{ route('tasks.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left"></i> Back to Board
+                        <i class="fas fa-arrow-left"></i> Kembali ke Board
                     </a>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Create Task
+                        <i class="fas fa-save"></i> Buat Tugas
                     </button>
                 </div>
             </form>
