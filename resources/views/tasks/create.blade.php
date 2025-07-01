@@ -620,7 +620,7 @@
     <div class="container">
         <div class="header">
             <h1><i class="fas fa-plus-circle"></i>Buat Tugas Baru</h1>
-            <p>Klik ini kalau kamu suka hidup yang menantang dan deadline yang menjerat.</p>
+            <p>Tambah tugas di sini kalau kamu suka hidup yang menantang dan deadline yang menjerat.</p>
         </div>
 
         <div class="form-card">
