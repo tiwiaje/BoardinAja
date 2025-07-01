@@ -18,7 +18,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: 22
         script: |
-          git config --global --add safe.directory /var/www/boardinaja
-          cd /var/www/boardinaja/
+          git config --global --add safe.directory /var/www/BoardinAja
+          cd /var/www/BoardinAja/
           git pull origin main
           git status
