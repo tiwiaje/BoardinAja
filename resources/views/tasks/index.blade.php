@@ -22,6 +22,25 @@
 </a>
 
 <style>
+.blink {
+  animation: blink-animation 1.5s infinite;
+}
+@keyframes blink-animation {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.popup-card {
+  position: absolute;
+  top: 60px;
+  right: 30px;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  z-index: 999;
+}
+.hidden { display: none; }
+
     @keyframes gradientBG {
         0% { background-position: 0% 50%; }
         50% { background-position: 100% 50%; }
@@ -1142,7 +1161,22 @@
         @endforeach
     </div>
 </div>
-@endif
+@endif{{-- Tombol Saran Prioritas yang berkedip --}}
+    <div class="mb-4 relative">
+        <button id="prioritySuggestionBtn" class="blink px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+            💡 Saran Prioritas
+        </button>
+
+        {{-- Popup detail saran --}}
+        <div id="priorityPopup" class="hidden popup-card absolute right-0 mt-2 bg-white border border-gray-300 shadow-lg rounded p-4 w-72 z-50">
+            <div class="flex justify-between items-start">
+                <p class="text-sm text-gray-700">Saran prioritas kamu adalah mengerjakan tugas yang paling dekat deadline-nya terlebih dahulu atau tugas dengan prioritas tertinggi.</p>
+                <button onclick="document.getElementById('priorityPopup').classList.add('hidden')" class="ml-2 text-gray-400 hover:text-gray-600">
+                    ✕
+                </button>
+            </div>
+        </div>
+    </div>
 
 <script>
     // Global functions
@@ -1368,6 +1402,11 @@
         }
     `;
     document.head.appendChild(style);
+
+    document.getElementById('prioritySuggestionBtn').addEventListener('click', function() {
+  const popup = document.getElementById('priorityPopup');
+  popup.classList.toggle('hidden');
+});
 </script>
 
 @endsection
