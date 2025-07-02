@@ -731,55 +731,57 @@
         }
         
         const calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: initialView,
-            height: isMobile ? (isSmallMobile ? 350 : 450) : (isTablet ? 500 : 600),
-            aspectRatio: isMobile ? (isSmallMobile ? 1.1 : 1.25) : (isTablet ? 1.3 : 1.35),
-            headerToolbar: headerToolbar,
-            buttonText: {
-                today: 'Hari Ini',
-                month: 'Bulan',
-                week: 'Minggu',
-                list: 'Daftar'
-            },
-            locale: 'id',
-            firstDay: 1, // Start week on Monday
-            events: function(fetchInfo, successCallback, failureCallback) {
-                fetch('{{ route('calendar.events') }}')
-                    .then(response => response.json())
-                    .then(events => successCallback(events))
-                    .catch(error => failureCallback(error));
-            },
-            eventClick: function(info) {
-                info.jsEvent.preventDefault();
-                if (info.event.url) {
-                    window.location.href = info.event.url;
-                }
-            },
-            eventDisplay: 'block',
-            eventBackgroundColor: '#667eea',
-            eventBorderColor: '#667eea',
-            eventTextColor: '#ffffff',
-            dayMaxEvents: isMobile ? (isSmallMobile ? 1 : 2) : true,
-            navLinks: true,
-            nowIndicator: true,
-            editable: false,
-            selectable: false,
-            dayMaxEventRows: isMobile ? (isSmallMobile ? 1 : 2) : false,
-            moreLinkClick: 'popover',
-            eventLimitClick: 'popover',
-            // Enhanced mobile experience
-            stickyHeaderDates: !isMobile,
-            fixedWeekCount: false,
-            showNonCurrentDates: !isSmallMobile,
-            // Performance optimizations
-            lazyFetching: true,
-            eventDidMount: function(info) {
-                // Add tooltip for mobile
-                if (isMobile && info.event.title) {
-                    info.el.setAttribute('title', info.event.title);
-                }
-            }
-        });
+    initialView: initialView,
+    height: isMobile ? (isSmallMobile ? 350 : 450) : (isTablet ? 500 : 600),
+    aspectRatio: isMobile ? (isSmallMobile ? 1.1 : 1.25) : (isTablet ? 1.3 : 1.35),
+    headerToolbar: headerToolbar,
+    buttonText: {
+        today: 'Hari Ini',
+        month: 'Bulan',
+        week: 'Minggu',
+        list: 'Daftar'
+    },
+    locale: 'id',
+    firstDay: 1,
+    events: function(fetchInfo, successCallback, failureCallback) {
+        fetch('{{ route('calendar.events') }}')
+            .then(response => response.json())
+            .then(events => successCallback(events))
+            .catch(error => failureCallback(error));
+    },
+    eventClick: function(info) {
+        info.jsEvent.preventDefault();
+        if (info.event.url) {
+            window.location.href = info.event.url;
+        }
+    },
+    dateClick: function(info) {
+        const selectedDate = info.dateStr;
+        window.location.href = `{{ route('tasks.create') }}?date=${selectedDate}`;
+    },
+    eventDisplay: 'block',
+    eventBackgroundColor: '#667eea',
+    eventBorderColor: '#667eea',
+    eventTextColor: '#ffffff',
+    dayMaxEvents: isMobile ? (isSmallMobile ? 1 : 2) : true,
+    navLinks: true,
+    nowIndicator: true,
+    editable: false,
+    selectable: false,
+    dayMaxEventRows: isMobile ? (isSmallMobile ? 1 : 2) : false,
+    moreLinkClick: 'popover',
+    eventLimitClick: 'popover',
+    stickyHeaderDates: !isMobile,
+    fixedWeekCount: false,
+    showNonCurrentDates: !isSmallMobile,
+    lazyFetching: true,
+    eventDidMount: function(info) {
+        if (isMobile && info.event.title) {
+            info.el.setAttribute('title', info.event.title);
+        }
+    }
+});
+
 
         calendar.render();
         calendar.refetchEvents();
