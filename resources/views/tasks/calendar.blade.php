@@ -815,6 +815,13 @@
                 calendar.updateSize();
             }, 500);
         });
+
+    dateClick: function(info) {
+    // Redirect ke halaman create task dengan parameter tanggal
+    const selectedDate = info.dateStr;
+    window.location.href = `{{ route('tasks.create') }}?date=${selectedDate}`;
+},
+
         
         // Touch-friendly event handling for mobile
         if (isMobile) {
