@@ -737,11 +737,12 @@
                         <i class="fas fa-calendar-alt"></i> Deadline *
                     </label>
                     <input type="date"
-                        id="deadline"
-                        name="deadline"
-                        class="form-input @error('deadline') error @enderror"
-                        value="{{ old('deadline') }}"
-                        required>
+    id="deadline"
+    name="deadline"
+    class="form-input @error('deadline') error @enderror"
+    value="{{ old('deadline', request('date')) }}"
+    required>
+
                     @error('deadline')
                     <div class="error-message" style="display: block;">{{ $message }}</div>
                     @enderror
