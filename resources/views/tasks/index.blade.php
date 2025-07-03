@@ -1396,6 +1396,12 @@
     `;
     document.head.appendChild(style);
 
+    hintBtn.addEventListener('click', function (e) {
+    e.stopPropagation(); // ✅ Cegah klik bocor ke luar
+    popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
+});
+
+
 </script>
 
 @endsection
