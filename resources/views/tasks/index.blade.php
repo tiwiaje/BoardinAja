@@ -1229,10 +1229,74 @@
         return token ? token.getAttribute('content') : '';
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const columns = document.querySelectorAll('.column');
-        const popup = document.getElementById('priority-popup');
-        const closeBtn = document.getElementById('close-popup');
+    document.addEventListener('DOMContentLoaded', function () {
+    // ===== Drag & Drop =====
+    const columns = document.querySelectorAll('.column');
+    columns.forEach(function(column) {
+        const sortable = new Sortable(column, {
+            group: 'kanban',
+            animation: 200,
+            ghostClass: 'sortable-ghost',
+            chosenClass: 'task-card-chosen',
+            dragClass: 'task-card-drag',
+            filter: '.add-task-btn, .column-header, .text-muted, .task-actions',
+            preventOnFilter: false,
+            onStart(evt) {
+                evt.item.classList.add('dragging');
+            },
+            onEnd(evt) {
+                const item = evt.item;
+                const newColumn = evt.to;
+                const taskId = item.dataset.taskId;
+                const newStatus = newColumn.dataset.status;
+
+                if (!taskId || !newStatus) return;
+
+                item.style.opacity = '0.6';
+                item.style.pointerEvents = 'none';
+
+                fetch(`/tasks/${taskId}/update-status`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                }).then(res => res.json())
+                .then(data => {
+                    item.style.opacity = '1';
+                    item.style.pointerEvents = 'auto';
+                    if (data.success) {
+                        setTimeout(() => location.reload(), 1000);
+                    }
+                }).catch(() => {
+                    item.style.opacity = '1';
+                    item.style.pointerEvents = 'auto';
+                });
+            }
+        });
+    });
+
+    // ===== Priority Hint Popup =====
+    const hintBtn = document.getElementById('priorityHintBtn');
+    const popup = document.getElementById('priorityHintPopup');
+    const closeBtn = document.getElementById('closeHint');
+
+    hintBtn?.addEventListener('click', () => {
+        popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
+    });
+
+    closeBtn?.addEventListener('click', () => {
+        popup.style.display = 'none';
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!popup.contains(e.target) && e.target !== hintBtn) {
+            popup.style.display = 'none';
+        }
+    });
+});
+
 
         // Initialize drag and drop for each column
         columns.forEach(function(column) {
