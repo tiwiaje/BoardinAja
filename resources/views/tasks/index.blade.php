@@ -22,24 +22,13 @@
 </a>
 
 <style>
-.blink {
-  animation: blink-animation 1.5s infinite;
+.animate-blink {
+    animation: blinkAnimation 1.2s ease-in-out infinite;
 }
-@keyframes blink-animation {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+@keyframes blinkAnimation {
+    0%, 100% { background-color: #facc15; color: #000; }
+    50% { background-color: #fde047; color: #000; }
 }
-.popup-card {
-  position: absolute;
-  top: 60px;
-  right: 30px;
-  background: white;
-  border: 1px solid #ccc;
-  padding: 1rem;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  z-index: 999;
-}
-.hidden { display: none; }
 
     @keyframes gradientBG {
         0% { background-position: 0% 50%; }
@@ -1161,22 +1150,26 @@
         @endforeach
     </div>
 </div>
-@endif{{-- Tombol Saran Prioritas yang berkedip --}}
-    <div class="mb-4 relative">
-        <button id="prioritySuggestionBtn" class="blink px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
-            💡 Saran Prioritas
-        </button>
-
-        {{-- Popup detail saran --}}
-        <div id="priorityPopup" class="hidden popup-card absolute right-0 mt-2 bg-white border border-gray-300 shadow-lg rounded p-4 w-72 z-50">
-            <div class="flex justify-between items-start">
-                <p class="text-sm text-gray-700">Saran prioritas kamu adalah mengerjakan tugas yang paling dekat deadline-nya terlebih dahulu atau tugas dengan prioritas tertinggi.</p>
-                <button onclick="document.getElementById('priorityPopup').classList.add('hidden')" class="ml-2 text-gray-400 hover:text-gray-600">
-                    ✕
-                </button>
-            </div>
+@endif
+<!-- Tombol dan Popup Saran Prioritas -->
+<div class="position-fixed top-0 end-0 m-3" style="z-index: 1050;">
+    <button id="priorityHintBtn" class="btn btn-warning fw-bold animate-blink shadow">
+        💡 Saran Prioritas
+    </button>
+    <div id="priorityHintPopup" class="card shadow-sm mt-2" style="min-width: 280px; display: none;">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <strong>Saran Prioritas</strong>
+            <button id="closeHint" class="btn btn-sm btn-outline-secondary">✕</button>
+        </div>
+        <div class="card-body">
+            <p class="mb-0">Berikut beberapa tugas yang sebaiknya Anda prioritaskan berdasarkan deadline terdekat dan tingkat urgensi:</p>
+            <ul class="mt-2">
+                <li>Tugas A (deadline: 2 hari lagi)</li>
+                <li>Tugas B (deadline: 3 hari lagi)</li>
+            </ul>
         </div>
     </div>
+</div>
 
 <script>
     // Global functions
