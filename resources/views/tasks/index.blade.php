@@ -3,6 +3,7 @@
 @section('content')
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <!-- SortableJS CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 
@@ -29,7 +30,6 @@
         right: 20px;
         z-index: 1050;
     }
-
     .priority-hint-btn {
         background: linear-gradient(45deg, #ffc107, #ff9800);
         color: #333;
@@ -46,7 +46,6 @@
         gap: 8px;
         animation: pulseGlow 2s ease-in-out infinite;
     }
-
     @keyframes pulseGlow {
         0%, 100% { 
             transform: scale(1);
@@ -57,19 +56,16 @@
             box-shadow: 0 6px 25px rgba(255, 193, 7, 0.6);
         }
     }
-
     .priority-hint-btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
         animation: none;
     }
-
     .priority-hint-btn.clicked {
         animation: none;
         background: linear-gradient(45deg, #28a745, #20c997);
         color: white;
     }
-
     /* Priority Hint Popup - Improved */
     .priority-hint-popup {
         position: absolute;
@@ -87,13 +83,11 @@
         border: 1px solid rgba(0, 0, 0, 0.1);
         overflow: hidden;
     }
-
     .priority-hint-popup.show {
         opacity: 1;
         transform: translateY(0);
         pointer-events: all;
     }
-
     .popup-header {
         background: linear-gradient(135deg, #667eea, #764ba2);
         color: white;
@@ -102,7 +96,6 @@
         justify-content: space-between;
         align-items: center;
     }
-
     .popup-title {
         font-size: 1.1rem;
         font-weight: 600;
@@ -110,7 +103,6 @@
         align-items: center;
         gap: 10px;
     }
-
     .popup-close {
         background: none;
         border: none;
@@ -126,61 +118,52 @@
         justify-content: center;
         transition: all 0.3s ease;
     }
-
     .popup-close:hover {
         background: rgba(255, 255, 255, 0.2);
         transform: scale(1.1);
     }
-
     .popup-content {
         padding: 20px;
     }
-
     .popup-intro {
         font-size: 0.9rem;
         color: #666;
         margin-bottom: 15px;
         line-height: 1.5;
     }
-
     .priority-tasks-list {
         display: flex;
         flex-direction: column;
         gap: 10px;
     }
-
     .priority-task-item {
         background: #f8f9fa;
         border-radius: 10px;
         padding: 12px;
         border-left: 4px solid;
         transition: all 0.3s ease;
+        cursor: pointer; /* ✅ Tambahkan cursor pointer */
     }
-
     .priority-task-item:hover {
         background: #e9ecef;
         transform: translateX(5px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* ✅ Tambahkan shadow saat hover */
     }
-
     .priority-task-item.urgent {
         border-left-color: #dc3545;
     }
-
     .priority-task-item.high {
         border-left-color: #fd7e14;
     }
-
     .priority-task-item.normal {
         border-left-color: #28a745;
     }
-
     .task-item-title {
         font-weight: 600;
         color: #333;
         margin-bottom: 4px;
         font-size: 0.9rem;
     }
-
     .task-item-deadline {
         font-size: 0.8rem;
         color: #666;
@@ -188,7 +171,6 @@
         align-items: center;
         gap: 5px;
     }
-
     .task-item-priority {
         font-size: 0.7rem;
         font-weight: 600;
@@ -198,20 +180,93 @@
         border-radius: 10px;
         display: inline-block;
     }
-
     .task-item-priority.urgent {
         background: #dc3545;
         color: white;
     }
-
     .task-item-priority.high {
         background: #fd7e14;
         color: white;
     }
-
     .task-item-priority.normal {
         background: #28a745;
         color: white;
+    }
+
+    /* ✅ TAMBAHAN: Modal untuk detail task */
+    .task-detail-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+    }
+    .task-detail-modal.show {
+        display: flex;
+    }
+    .task-detail-content {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        max-width: 500px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    .task-detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+    .task-detail-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #333;
+    }
+    .task-detail-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #888;
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+    .task-detail-close:hover {
+        background: #f0f0f0;
+        color: #333;
+    }
+    .task-detail-info {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .task-detail-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+    .task-detail-label {
+        font-weight: 600;
+        color: #555;
+        min-width: 100px;
+    }
+    .task-detail-value {
+        color: #333;
+        flex: 1;
     }
 
     /* Responsive Design untuk Priority Hint */
@@ -236,7 +291,6 @@
             padding: 15px;
         }
     }
-
     @media (max-width: 480px) {
         .priority-hint-container {
             top: 70px;
@@ -253,7 +307,7 @@
             min-width: 260px;
         }
     }
-
+    
     
     
     
@@ -293,7 +347,6 @@
         overflow-x: hidden;
         padding-top: 80px;
     }
-
     /* Navbar Styles */
     .navbar {
         position: fixed;
@@ -307,7 +360,6 @@
         transition: all 0.3s ease;
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
-
     .navbar-container {
         max-width: 1400px;
         margin: 0 auto;
@@ -317,7 +369,6 @@
         align-items: center;
         height: 70px;
     }
-
     .navbar-brand {
         display: flex;
         align-items: center;
@@ -328,11 +379,9 @@
         text-decoration: none;
         transition: transform 0.3s ease;
     }
-
     .navbar-brand:hover {
         transform: scale(1.05);
     }
-
     .navbar-brand i {
         font-size: 1.8rem;
         background: linear-gradient(135deg, #667eea, #764ba2);
@@ -340,14 +389,12 @@
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
-
     .navbar-nav {
         display: flex;
         list-style: none;
         gap: 30px;
         align-items: center;
     }
-
     .nav-link {
         color: #333;
         text-decoration: none;
@@ -360,19 +407,16 @@
         align-items: center;
         gap: 8px;
     }
-
     .nav-link:hover {
         background: rgba(102, 126, 234, 0.1);
         color: #667eea;
         transform: translateY(-2px);
     }
-
     .nav-link.active {
         background: linear-gradient(135deg, #667eea, #764ba2);
         color: white;
         box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
     }
-
     .navbar-toggle {
         display: none;
         background: none;
@@ -384,12 +428,10 @@
         border-radius: 5px;
         transition: all 0.3s ease;
     }
-
     .navbar-toggle:hover {
         background: rgba(102, 126, 234, 0.1);
         color: #667eea;
     }
-
     .mobile-menu {
         display: none;
         position: fixed;
@@ -402,12 +444,10 @@
         z-index: 999;
         transition: all 0.3s ease;
     }
-
     .mobile-nav {
         list-style: none;
         padding: 1rem;
     }
-
     .mobile-nav .nav-link {
         display: block;
         padding: 0.5rem 1rem;
@@ -415,17 +455,14 @@
         text-align: center;
         border-radius: 10px;
     }
-
     .mobile-nav .nav-link:hover {
         background: rgba(102, 126, 234, 0.1);
         color: #667eea;
     }
-
     .mobile-nav .nav-link.active {
         background: linear-gradient(135deg, #667eea, #764ba2);
         color: white;
     }
-
     .mobile-menu-toggle {
         display: none;
         background: none;
@@ -437,12 +474,10 @@
         border-radius: 5px;
         transition: all 0.3s ease;
     }
-
     .mobile-menu-toggle:hover {
         background: rgba(102, 126, 234, 0.1);
         color: #667eea;
     }
-
     /* Animations */
     @keyframes slide-in {
         from {
@@ -454,11 +489,9 @@
             opacity: 1;
         }
     }
-
     .slide-in {
         animation: slide-in 0.3s ease-out;
     }
-
     @keyframes fade-in {
         from {
             opacity: 0;
@@ -469,11 +502,9 @@
             transform: translateY(0);
         }
     }
-
     .fade-in {
         animation: fade-in 0.4s ease-in-out forwards;
     }
-
     /* Responsive Styles */
     @media (max-width: 768px) {
         .navbar-nav {
@@ -489,13 +520,11 @@
             font-size: 1.8rem;
         }
     }
-
     @media (max-width: 480px) {
         .navbar-brand i {
             font-size: 1.6rem;
         }
     }
-
     /* Bubble Elements */
     .bubble {
         position: absolute;
@@ -505,7 +534,6 @@
         animation: floatBubble 15s ease-in-out infinite;
         z-index: -1;
     }
-
     #priority-popup {
         position: fixed;
         top: 90px;
@@ -520,7 +548,6 @@
         border: 1px solid rgba(0, 0, 0, 0.05);
         transition: all 0.3s;
     }
-
     @media (max-width: 600px) {
         #priority-popup {
             left: 2.5vw !important;
@@ -559,7 +586,6 @@
             padding: 2px 6px;
         }
     }
-
     .priority-popup-header {
         display: flex;
         justify-content: space-between;
@@ -568,7 +594,6 @@
         padding-bottom: 0.5rem;
         border-bottom: 1px solid #f0f0f0;
     }
-
     .priority-popup-title {
         font-size: 1rem;
         font-weight: 700;
@@ -577,7 +602,6 @@
         align-items: center;
         gap: 8px;
     }
-
     .priority-popup-close {
         background: none;
         border: none;
@@ -586,12 +610,10 @@
         cursor: pointer;
         transition: all 0.2s ease;
     }
-
     .priority-popup-close:hover {
         color: #333;
         transform: scale(1.1);
     }
-
     .priority-item {
         background: #f9f9f9;
         border-radius: 12px;
@@ -600,31 +622,25 @@
         transition: all 0.3s ease;
         border-left: 4px solid;
     }
-
     .priority-item:hover {
         background: #f0f0f0;
         transform: translateY(-2px);
     }
-
     .priority-item.urgent {
         border-left-color: #ff4757;
     }
-
     .priority-item.high {
         border-left-color: #ff6b35;
     }
-
     .priority-item.normal {
         border-left-color: #26a69a;
     }
-
     .priority-item-title {
         font-size: 0.9rem;
         font-weight: 600;
         color: #333;
         margin-bottom: 4px;
     }
-
     .priority-item-deadline {
         font-size: 0.75rem;
         color: #666;
@@ -633,7 +649,6 @@
         align-items: center;
         gap: 4px;
     }
-
     .priority-item-badge {
         font-size: 0.7rem;
         padding: 3px 8px;
@@ -641,22 +656,18 @@
         font-weight: 600;
         text-transform: uppercase;
     }
-
     .priority-item-badge.urgent {
         background: #ff4757;
         color: white;
     }
-
     .priority-item-badge.high {
         background: #ff6b35;
         color: white;
     }
-
     .priority-item-badge.normal {
         background: #26a69a;
         color: white;
     }
-
     .container {
         max-width: 1400px;
         margin: 0 auto;
@@ -664,24 +675,20 @@
         position: relative;
         z-index: 1;
     }
-
     .header {
         text-align: center;
         color: white;
         margin-bottom: 30px;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
-
     .header h1 {
         font-size: 2.5rem;
         margin-bottom: 10px;
     }
-
     .header p {
         font-size: 1.1rem;
         opacity: 0.9;
     }
-
     .priority-filter {
         display: flex;
         justify-content: center;
@@ -689,7 +696,6 @@
         margin-bottom: 30px;
         flex-wrap: wrap;
     }
-
     .filter-btn {
         padding: 12px 24px;
         border: none;
@@ -701,36 +707,70 @@
         letter-spacing: 1px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         font-size: 0.9rem;
+        position: relative; /* ✅ Untuk badge counter */
     }
-
     .filter-btn.all {
         background: #ffffff;
         color: #333;
     }
-
     .filter-btn.urgent {
         background: #ff4757;
         color: white;
     }
-
     .filter-btn.high {
         background: #ff6b35;
         color: white;
     }
-
     .filter-btn.normal {
         background: #26a69a;
         color: white;
     }
-
     .filter-btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
-
     .filter-btn.active {
         transform: scale(1.05);
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ✅ TAMBAHAN: Badge counter untuk filter */
+    .filter-counter {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #fff;
+        color: #333;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        font-weight: 700;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        border: 2px solid currentColor;
+    }
+    .filter-btn.urgent .filter-counter {
+        background: #fff;
+        color: #ff4757;
+        border-color: #ff4757;
+    }
+    .filter-btn.high .filter-counter {
+        background: #fff;
+        color: #ff6b35;
+        border-color: #ff6b35;
+    }
+    .filter-btn.normal .filter-counter {
+        background: #fff;
+        color: #26a69a;
+        border-color: #26a69a;
+    }
+    .filter-btn.all .filter-counter {
+        background: #667eea;
+        color: #fff;
+        border-color: #667eea;
     }
 
     .board {
@@ -741,7 +781,6 @@
         padding: 0 10px 20px 10px;
         justify-content: center;
     }
-
     .column {
         background: rgba(255, 255, 255, 0.95);
         border-radius: 20px;
@@ -758,12 +797,10 @@
         transition: transform 0.3s ease;
         border: 1px solid rgba(255, 255, 255, 0.2);
     }
-
     .column:hover {
         transform: translateY(-5px);
         box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
     }
-
     .column-header {
         text-align: center;
         font-size: 1.3rem;
@@ -776,22 +813,18 @@
         flex-shrink: 0;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-
     .column-header.todo {
         background: linear-gradient(135deg, #667eea, #764ba2);
         color: white;
     }
-
     .column-header.in-progress {
         background: linear-gradient(135deg, #f093fb, #f5576c);
         color: white;
     }
-
     .column-header.completed {
         background: linear-gradient(135deg, #4facfe, #00f2fe);
         color: white;
     }
-
     .task-card {
         background: white;
         border-radius: 15px;
@@ -807,25 +840,20 @@
         flex-shrink: 0;
         backdrop-filter: blur(5px);
     }
-
     .task-card:hover {
         transform: translateY(-3px);
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
-
     /* Priority Colors - Border Left */
     .task-card.urgent {
         border-left-color: #ff4757;
     }
-
     .task-card.high {
         border-left-color: #ff6b35;
     }
-
     .task-card.normal {
         border-left-color: #26a69a;
     }
-
     /* Priority Badge */
     .priority-badge {
         position: absolute;
@@ -839,22 +867,18 @@
         letter-spacing: 0.5px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-
     .priority-badge.urgent {
         background: #ff4757;
         color: white;
     }
-
     .priority-badge.high {
         background: #ff6b35;
         color: white;
     }
-
     .priority-badge.normal {
         background: #26a69a;
         color: white;
     }
-
     .task-title {
         font-size: 1.1rem;
         font-weight: 600;
@@ -862,14 +886,12 @@
         color: #333;
         padding-right: 60px;
     }
-
     .task-description {
         font-size: 0.9rem;
         color: #666;
         margin-bottom: 10px;
         line-height: 1.4;
     }
-
     .task-meta {
         display: flex;
         justify-content: space-between;
@@ -879,19 +901,16 @@
         flex-wrap: wrap;
         gap: 5px;
     }
-
     .task-deadline {
         background: #f8f9fa;
         padding: 4px 8px;
         border-radius: 15px;
     }
-
     .task-deadline.overdue {
         background: #ffebee;
         color: #c62828;
         font-weight: 600;
     }
-
     .task-category {
         background: #e3f2fd;
         color: #1976d2;
@@ -899,7 +918,6 @@
         border-radius: 15px;
         font-weight: 500;
     }
-
     .task-completed {
         background: #e8f5e8;
         color: #2e7d32;
@@ -908,7 +926,6 @@
         font-weight: 500;
         font-size: 0.75rem;
     }
-
     .add-task-btn {
         width: 100%;
         padding: 18px;
@@ -924,13 +941,11 @@
         flex-shrink: 0;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-
     .add-task-btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         background: linear-gradient(135deg, #5a6fd1, #6a4299);
     }
-
     /* Task Statistics */
     .stats {
         display: flex;
@@ -939,7 +954,6 @@
         margin-bottom: 20px;
         flex-wrap: wrap;
     }
-
     .stat-card {
         background: rgba(255, 255, 255, 0.9);
         padding: 15px 25px;
@@ -950,36 +964,30 @@
         transition: transform 0.3s ease;
         min-width: 120px;
     }
-
     .stat-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
     }
-
     .stat-number {
         font-size: 1.5rem;
         font-weight: 700;
         color: #333;
     }
-
     .stat-label {
         font-size: 0.9rem;
         color: #666;
         text-transform: uppercase;
         letter-spacing: 1px;
     }
-
     .task-actions {
         display: flex;
         align-items: center;
         gap: 8px;
         margin-top: 10px;
     }
-
     .task-actions form {
         display: inline-block;
     }
-
     .task-actions button,
     .task-actions .btn {
         padding: 6px 12px;
@@ -993,43 +1001,35 @@
         align-items: center;
         gap: 4px;
     }
-
     .task-actions button:hover,
     .task-actions .btn:hover {
         transform: translateY(-1px);
     }
-
     .btn-warning {
         background: #ffc107;
         color: #333;
     }
-
     .btn-danger {
         background: #dc3545;
         color: white;
     }
-
     .btn-success {
         background: #28a745;
         color: white;
     }
-
     .hidden {
         display: none !important;
     }
-
     /* Loading state untuk drag and drop */
     .task-card.dragging {
         opacity: 0.5;
         transform: rotate(5deg);
         pointer-events: none;
     }
-
     .sortable-ghost {
         opacity: 0.4;
         background: #f0f0f0;
     }
-
     /* Responsive Design */
     @media (max-width: 1400px) {
         .column {
@@ -1038,7 +1038,6 @@
             flex: 0 0 350px;
         }
     }
-
     @media (max-width: 1200px) {
         .column {
             min-width: 320px;
@@ -1047,7 +1046,6 @@
             height: 550px;
         }
     }
-
     @media (max-width: 768px) {
         .navbar-nav {
             display: none;
@@ -1105,7 +1103,6 @@
             font-size: 0.8rem;
         }
     }
-
     @media (max-width: 480px) {
         body {
             padding-top: 70px;
@@ -1154,41 +1151,33 @@
             padding: 3px 6px;
         }
     }
-
     /* Custom scrollbar for columns */
     .column::-webkit-scrollbar {
         width: 6px;
     }
-
     .column::-webkit-scrollbar-track {
         background: rgba(0, 0, 0, 0.1);
         border-radius: 3px;
     }
-
     .column::-webkit-scrollbar-thumb {
         background: rgba(0, 0, 0, 0.3);
         border-radius: 3px;
     }
-
     .column::-webkit-scrollbar-thumb:hover {
         background: rgba(0, 0, 0, 0.5);
     }
-
     /* Board scrollbar */
     .board::-webkit-scrollbar {
         height: 8px;
     }
-
     .board::-webkit-scrollbar-track {
         background: rgba(255, 255, 255, 0.1);
         border-radius: 4px;
     }
-
     .board::-webkit-scrollbar-thumb {
         background: rgba(255, 255, 255, 0.3);
         border-radius: 4px;
     }
-
     .board::-webkit-scrollbar-thumb:hover {
         background: rgba(255, 255, 255, 0.5);
     }
@@ -1224,15 +1213,19 @@
     <div class="priority-filter">
         <button class="filter-btn all active" onclick="filterTasks('all')">
             <i class="fas fa-list"></i> Semua
+            <span class="filter-counter" id="allCounter">0</span>
         </button>
         <button class="filter-btn urgent" onclick="filterTasks('urgent')">
             🔴 Urgent
+            <span class="filter-counter" id="urgentCounter">0</span>
         </button>
         <button class="filter-btn high" onclick="filterTasks('high')">
             🟠 High
+            <span class="filter-counter" id="highCounter">0</span>
         </button>
         <button class="filter-btn normal" onclick="filterTasks('normal')">
             🟢 Normal
+            <span class="filter-counter" id="normalCounter">0</span>
         </button>
     </div>
 
@@ -1355,7 +1348,7 @@
     </div>
 </div>
 
-<!-- TAMBAHKAN KODE BARU INI -->
+<!-- SARAN PRIORITAS POPUP -->
 @if ($suggestedTasks->count())
 <div class="priority-hint-container">
     <button class="priority-hint-btn" id="priorityHintBtn">
@@ -1379,7 +1372,14 @@
             
             <div class="priority-tasks-list" id="priorityTasksList">
                 @foreach ($suggestedTasks->take(3) as $task)
-                <div class="priority-task-item {{ $task->priority }}">
+                <div class="priority-task-item {{ $task->priority }}" 
+                     data-task-id="{{ $task->id }}"
+                     data-task-title="{{ $task->title }}"
+                     data-task-description="{{ $task->description }}"
+                     data-task-deadline="{{ $task->deadline }}"
+                     data-task-priority="{{ $task->priority }}"
+                     data-task-category="{{ $task->category ?? 'Tidak ada kategori' }}"
+                     data-task-status="{{ $task->status }}">
                     <div class="task-item-title">{{ $task->title }}</div>
                     <div class="task-item-deadline">
                         <i class="far fa-clock"></i>
@@ -1393,8 +1393,57 @@
     </div>
 </div>
 @endif
+
+<!-- ✅ MODAL DETAIL TASK -->
+<div class="task-detail-modal" id="taskDetailModal">
+    <div class="task-detail-content">
+        <div class="task-detail-header">
+            <div class="task-detail-title" id="modalTaskTitle">Detail Tugas</div>
+            <button class="task-detail-close" id="closeTaskModal">&times;</button>
+        </div>
+        <div class="task-detail-info">
+            <div class="task-detail-row">
+                <div class="task-detail-label">
+                    <i class="fas fa-heading"></i> Judul:
+                </div>
+                <div class="task-detail-value" id="modalTaskTitleValue">-</div>
+            </div>
+            <div class="task-detail-row">
+                <div class="task-detail-label">
+                    <i class="fas fa-align-left"></i> Deskripsi:
+                </div>
+                <div class="task-detail-value" id="modalTaskDescription">-</div>
+            </div>
+            <div class="task-detail-row">
+                <div class="task-detail-label">
+                    <i class="fas fa-calendar-alt"></i> Deadline:
+                </div>
+                <div class="task-detail-value" id="modalTaskDeadline">-</div>
+            </div>
+            <div class="task-detail-row">
+                <div class="task-detail-label">
+                    <i class="fas fa-exclamation-circle"></i> Prioritas:
+                </div>
+                <div class="task-detail-value" id="modalTaskPriority">-</div>
+            </div>
+            <div class="task-detail-row">
+                <div class="task-detail-label">
+                    <i class="fas fa-tag"></i> Kategori:
+                </div>
+                <div class="task-detail-value" id="modalTaskCategory">-</div>
+            </div>
+            <div class="task-detail-row">
+                <div class="task-detail-label">
+                    <i class="fas fa-info-circle"></i> Status:
+                </div>
+                <div class="task-detail-value" id="modalTaskStatus">-</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    // Global functions
+    // ✅ PERBAIKAN: Global functions dengan counter yang benar
     function filterTasks(priority) {
         const allTasks = document.querySelectorAll('.task-card');
         const filterBtns = document.querySelectorAll('.filter-btn');
@@ -1412,13 +1461,39 @@
         });
         
         updateStats();
+        updateFilterCounters(); // ✅ Update counter setelah filter
     }
 
+    // ✅ PERBAIKAN: Fungsi update stats yang lebih akurat
     function updateStats() {
-        document.getElementById('totalTasks').textContent = document.querySelectorAll('.task-card:not(.hidden)').length;
-        document.getElementById('urgentTasks').textContent = document.querySelectorAll('.task-card[data-priority="urgent"]:not(.hidden)').length;
-        document.getElementById('highTasks').textContent = document.querySelectorAll('.task-card[data-priority="high"]:not(.hidden)').length;
-        document.getElementById('normalTasks').textContent = document.querySelectorAll('.task-card[data-priority="normal"]:not(.hidden)').length;
+        const visibleTasks = document.querySelectorAll('.task-card:not(.hidden)');
+        const urgentTasks = document.querySelectorAll('.task-card[data-priority="urgent"]:not(.hidden)');
+        const highTasks = document.querySelectorAll('.task-card[data-priority="high"]:not(.hidden)');
+        const normalTasks = document.querySelectorAll('.task-card[data-priority="normal"]:not(.hidden)');
+
+        document.getElementById('totalTasks').textContent = visibleTasks.length;
+        document.getElementById('urgentTasks').textContent = urgentTasks.length;
+        document.getElementById('highTasks').textContent = highTasks.length;
+        document.getElementById('normalTasks').textContent = normalTasks.length;
+    }
+
+    // ✅ BARU: Fungsi untuk update counter di filter button
+    function updateFilterCounters() {
+        const allTasks = document.querySelectorAll('.task-card');
+        const urgentTasks = document.querySelectorAll('.task-card[data-priority="urgent"]');
+        const highTasks = document.querySelectorAll('.task-card[data-priority="high"]');
+        const normalTasks = document.querySelectorAll('.task-card[data-priority="normal"]');
+
+        // Update counter di setiap filter button
+        const allCounter = document.getElementById('allCounter');
+        const urgentCounter = document.getElementById('urgentCounter');
+        const highCounter = document.getElementById('highCounter');
+        const normalCounter = document.getElementById('normalCounter');
+
+        if (allCounter) allCounter.textContent = allTasks.length;
+        if (urgentCounter) urgentCounter.textContent = urgentTasks.length;
+        if (highCounter) highCounter.textContent = highTasks.length;
+        if (normalCounter) normalCounter.textContent = normalTasks.length;
     }
 
     function addTask(status) {
@@ -1451,56 +1526,99 @@
         return token ? token.getAttribute('content') : '';
     }
 
+    // ✅ BARU: Fungsi untuk menampilkan detail task
+    function showTaskDetail(taskData) {
+        const modal = document.getElementById('taskDetailModal');
+        
+        // Populate modal dengan data task
+        document.getElementById('modalTaskTitleValue').textContent = taskData.title;
+        document.getElementById('modalTaskDescription').textContent = taskData.description;
+        document.getElementById('modalTaskDeadline').textContent = formatDeadline(taskData.deadline);
+        document.getElementById('modalTaskPriority').innerHTML = `<span class="priority-badge ${taskData.priority}">${taskData.priority.toUpperCase()}</span>`;
+        document.getElementById('modalTaskCategory').textContent = taskData.category;
+        document.getElementById('modalTaskStatus').textContent = formatStatus(taskData.status);
+        
+        // Show modal
+        modal.classList.add('show');
+    }
+
+    // ✅ BARU: Helper functions untuk format data
+    function formatDeadline(deadline) {
+        const date = new Date(deadline);
+        const now = new Date();
+        const diffTime = date - now;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays < 0) {
+            return `${Math.abs(diffDays)} hari yang lalu (TERLAMBAT)`;
+        } else if (diffDays === 0) {
+            return 'Hari ini';
+        } else if (diffDays === 1) {
+            return 'Besok';
+        } else {
+            return `${diffDays} hari lagi`;
+        }
+    }
+
+    function formatStatus(status) {
+        const statusMap = {
+            'todo': 'Belum Dikerjakan',
+            'in_progress': 'Sedang Dikerjakan',
+            'done': 'Selesai'
+        };
+        return statusMap[status] || status;
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
-    // ===== Drag & Drop =====
-    const columns = document.querySelectorAll('.column');
-    columns.forEach(function(column) {
-        const sortable = new Sortable(column, {
-            group: 'kanban',
-            animation: 200,
-            ghostClass: 'sortable-ghost',
-            chosenClass: 'task-card-chosen',
-            dragClass: 'task-card-drag',
-            filter: '.add-task-btn, .column-header, .text-muted, .task-actions',
-            preventOnFilter: false,
-            onStart(evt) {
-                evt.item.classList.add('dragging');
-            },
-            onEnd(evt) {
-                const item = evt.item;
-                const newColumn = evt.to;
-                const taskId = item.dataset.taskId;
-                const newStatus = newColumn.dataset.status;
+        const columns = document.querySelectorAll('.column');
+        
+        // ===== Drag & Drop =====
+        columns.forEach(function(column) {
+            const sortable = new Sortable(column, {
+                group: 'kanban',
+                animation: 200,
+                ghostClass: 'sortable-ghost',
+                chosenClass: 'task-card-chosen',
+                dragClass: 'task-card-drag',
+                filter: '.add-task-btn, .column-header, .text-muted, .task-actions',
+                preventOnFilter: false,
+                onStart(evt) {
+                    evt.item.classList.add('dragging');
+                },
+                onEnd(evt) {
+                    const item = evt.item;
+                    const newColumn = evt.to;
+                    const taskId = item.dataset.taskId;
+                    const newStatus = newColumn.dataset.status;
 
-                if (!taskId || !newStatus) return;
+                    if (!taskId || !newStatus) return;
 
-                item.style.opacity = '0.6';
-                item.style.pointerEvents = 'none';
+                    item.style.opacity = '0.6';
+                    item.style.pointerEvents = 'none';
 
-                fetch(`/tasks/${taskId}/update-status`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                    },
-                    body: JSON.stringify({ status: newStatus })
-                }).then(res => res.json())
-                .then(data => {
-                    item.style.opacity = '1';
-                    item.style.pointerEvents = 'auto';
-                    if (data.success) {
-                        setTimeout(() => location.reload(), 1000);
-                    }
-                }).catch(() => {
-                    item.style.opacity = '1';
-                    item.style.pointerEvents = 'auto';
-                });
-            }
+                    fetch(`/tasks/${taskId}/update-status`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({ status: newStatus })
+                    }).then(res => res.json())
+                    .then(data => {
+                        item.style.opacity = '1';
+                        item.style.pointerEvents = 'auto';
+                        if (data.success) {
+                            setTimeout(() => location.reload(), 1000);
+                        }
+                    }).catch(() => {
+                        item.style.opacity = '1';
+                        item.style.pointerEvents = 'auto';
+                    });
+                }
+            });
         });
-    });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        // Priority Hint functionality
+        // ===== Priority Hint Popup Handling =====
         const hintBtn = document.getElementById('priorityHintBtn');
         const popup = document.getElementById('priorityHintPopup');
         const closeBtn = document.getElementById('closePopup');
@@ -1548,118 +1666,51 @@
             });
         }
 
-
-        // Initialize drag and drop for each column
-        columns.forEach(function(column) {
-            const sortable = new Sortable(column, {
-                group: 'kanban',
-                animation: 200,
-                ghostClass: 'sortable-ghost',
-                chosenClass: 'task-card-chosen',
-                dragClass: 'task-card-drag',
-                filter: '.add-task-btn, .column-header, .text-muted, .task-actions',
-                preventOnFilter: false,
+        // ✅ BARU: Event listener untuk klik pada priority task items
+        const priorityTaskItems = document.querySelectorAll('.priority-task-item');
+        priorityTaskItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const taskData = {
+                    id: this.dataset.taskId,
+                    title: this.dataset.taskTitle,
+                    description: this.dataset.taskDescription,
+                    deadline: this.dataset.taskDeadline,
+                    priority: this.dataset.taskPriority,
+                    category: this.dataset.taskCategory,
+                    status: this.dataset.taskStatus
+                };
                 
-                onStart: function(evt) {
-                    console.log('Drag started');
-                    evt.item.classList.add('dragging');
-                },
+                showTaskDetail(taskData);
                 
-                onEnd: function(evt) {
-                    console.log('Drag ended');
-                    evt.item.classList.remove('dragging');
-                    
-                    const item = evt.item;
-                    const newColumn = evt.to;
-                    const taskId = item.dataset.taskId;
-                    
-                    // Get new status from column data attribute
-                    const newStatus = newColumn.dataset.status;
-                    
-                    console.log('Task ID:', taskId, 'New Status:', newStatus);
-                    
-                    if (!taskId) {
-                        showNotification('Task ID tidak ditemukan.', 'error');
-                        return;
-                    }
-                    
-                    if (!newStatus) {
-                        showNotification('Status kolom tidak valid.', 'error');
-                        return;
-                    }
-
-                    // Show loading state
-                    item.style.opacity = '0.6';
-                    item.style.pointerEvents = 'none';
-                    
-                    // Get CSRF token
-                    const csrfToken = getCSRFToken();
-                    if (!csrfToken) {
-                        showNotification('CSRF token tidak ditemukan.', 'error');
-                        item.style.opacity = '1';
-                        item.style.pointerEvents = 'auto';
-                        return;
-                    }
-
-                    // Send update request
-                    fetch(`/tasks/${taskId}/update-status`, {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken,
-                            'X-Requested-With': 'XMLHttpRequest'
-                        },
-                        body: JSON.stringify({
-                            status: newStatus
-                        }),
-                        credentials: 'same-origin'
-                    })
-                    .then(response => {
-                        console.log('Response status:', response.status);
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Response data:', data);
-                        item.style.opacity = '1';
-                        item.style.pointerEvents = 'auto';
-                        
-                        if (data.success) {
-                            showNotification('Task berhasil dipindahkan!', 'success');
-                            updateStats();
-                            // Optional: reload page after short delay
-                            setTimeout(() => {
-                                window.location.reload();
-                            }, 1000);
-                        } else {
-                            showNotification(data.message || 'Gagal memperbarui status task.', 'error');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Fetch error:', error);
-                        item.style.opacity = '1';
-                        item.style.pointerEvents = 'auto';
-                        showNotification('Terjadi kesalahan saat memperbarui status.', 'error');
-                    });
-                }
+                // Close priority popup
+                popup.classList.remove('show');
+                hintBtn.classList.remove('clicked');
+                isPopupOpen = false;
             });
         });
 
-        // Priority popup handling
-        if (popup && closeBtn) {
-            closeBtn.addEventListener('click', () => popup.remove());
-            document.addEventListener('click', function(e) {
-                if (!popup.contains(e.target) && !e.target.closest('#priority-popup')) {
-                    popup.remove();
+        // ✅ BARU: Modal close handlers
+        const taskModal = document.getElementById('taskDetailModal');
+        const closeTaskModal = document.getElementById('closeTaskModal');
+
+        if (closeTaskModal) {
+            closeTaskModal.addEventListener('click', function() {
+                taskModal.classList.remove('show');
+            });
+        }
+
+        // Close modal when clicking outside
+        if (taskModal) {
+            taskModal.addEventListener('click', function(e) {
+                if (e.target === taskModal) {
+                    taskModal.classList.remove('show');
                 }
             });
         }
 
-        // Initialize stats
+        // ✅ Initialize stats and counters
         updateStats();
+        updateFilterCounters();
 
         // Request notification permission
         if (Notification.permission !== 'granted') {
@@ -1710,13 +1761,6 @@
         }
     `;
     document.head.appendChild(style);
-
-    hintBtn.addEventListener('click', function (e) {
-    e.stopPropagation(); // ✅ Cegah klik bocor ke luar
-    popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
-});
-
-
 </script>
 
 @endsection
