@@ -510,21 +510,152 @@
         .navbar-nav {
             display: none;
         }
-        .mobile-menu {
+        .navbar-toggle {
             display: block;
         }
-        .mobile-menu-toggle {
-            display: block;
+        .container {
+            padding: 10px;
         }
-        .navbar-brand i {
-            font-size: 1.8rem;
+        .header h1 {
+            font-size: 2rem;
+        }
+        .header p {
+            font-size: 1rem;
+        }
+        
+    /* ✅ TAMBAHAN: Styling tombol kembali untuk tablet */
+    a[href*="dashboard"] {
+        padding: 8px 16px !important;
+        font-size: 0.85rem !important;
+        top: 20px !important;
+        left: 20px !important;
+    }
+    
+    a[href*="dashboard"] i {
+        font-size: 0.9rem !important;
+    }
+    
+        .board {
+            flex-direction: column;
+            overflow-x: visible;
+            align-items: center;
+            gap: 20px;
+        }
+        .column {
+            min-width: 95%;
+            width: 95%;
+            flex: 1;
+            height: 500px;
+            max-width: 500px;
+        }
+        .priority-filter {
+            gap: 10px;
+        }
+        .filter-btn {
+            padding: 10px 18px;
+            font-size: 0.8rem;
+        }
+        #priority-popup {
+            top: 80px;
+            right: 10px;
+            left: 10px;
+            width: auto;
+            max-width: none;
+        }
+        .stats {
+            gap: 15px;
+        }
+        .stat-card {
+            padding: 12px 20px;
+            min-width: 100px;
+        }
+        .stat-number {
+            font-size: 1.3rem;
+        }
+        .stat-label {
+            font-size: 0.8rem;
         }
     }
+
     @media (max-width: 480px) {
-        .navbar-brand i {
-            font-size: 1.6rem;
+        body {
+            padding-top: 70px;
+        }
+        .navbar-container {
+            height: 60px;
+            padding: 0 15px;
+        }
+        .navbar-brand {
+            font-size: 1.3rem;
+        }
+        
+    /* ✅ TAMBAHAN: Styling tombol kembali untuk mobile */
+    a[href*="dashboard"] {
+        padding: 6px 12px !important;
+        font-size: 0.75rem !important;
+        top: 15px !important;
+        left: 15px !important;
+        border-radius: 20px !important;
+        gap: 6px !important;
+    }
+    
+    a[href*="dashboard"] i {
+        font-size: 0.8rem !important;
+    }
+    
+        .column {
+            min-width: 100%;
+            width: 100%;
+            height: 450px;
+            padding: 20px;
+        }
+        .board {
+            padding: 0 5px 20px 5px;
+            gap: 15px;
+        }
+        .filter-btn {
+            padding: 8px 15px;
+            font-size: 0.75rem;
+        }
+        .stats {
+            gap: 10px;
+        }
+        .stat-card {
+            padding: 10px 15px;
+            min-width: 80px;
+        }
+        .task-card {
+            padding: 15px;
+            min-height: 100px;
+        }
+        .task-title {
+            font-size: 1rem;
+            padding-right: 50px;
+        }
+        .task-description {
+            font-size: 0.85rem;
+        }
+        .priority-badge {
+            font-size: 0.6rem;
+            padding: 3px 6px;
         }
     }
+
+/* ✅ TAMBAHAN: Media query khusus untuk mobile sangat kecil */
+@media (max-width: 360px) {
+    a[href*="dashboard"] {
+        padding: 5px 10px !important;
+        font-size: 0.7rem !important;
+        top: 12px !important;
+        left: 12px !important;
+        border-radius: 18px !important;
+        gap: 4px !important;
+    }
+    
+    a[href*="dashboard"] i {
+        font-size: 0.75rem !important;
+    }
+}
     /* Bubble Elements */
     .bubble {
         position: absolute;
