@@ -1396,10 +1396,6 @@
     `;
     document.head.appendChild(style);
 
-    document.getElementById('prioritySuggestionBtn').addEventListener('click', function() {
-  const popup = document.getElementById('priorityPopup');
-  popup.classList.toggle('hidden');
-});
 </script>
 
 @endsection
