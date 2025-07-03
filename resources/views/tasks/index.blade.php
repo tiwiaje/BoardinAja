@@ -22,14 +22,243 @@
 </a>
 
 <style>
-.animate-blink {
-    animation: blinkAnimation 1.2s ease-in-out infinite;
-}
-@keyframes blinkAnimation {
-    0%, 100% { background-color: #facc15; color: #000; }
-    50% { background-color: #fde047; color: #000; }
-}
+/* Priority Hint Button - Berkedip */
+    .priority-hint-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1050;
+    }
 
+    .priority-hint-btn {
+        background: linear-gradient(45deg, #ffc107, #ff9800);
+        color: #333;
+        border: none;
+        border-radius: 50px;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        animation: pulseGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+        0%, 100% { 
+            transform: scale(1);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+        }
+        50% { 
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(255, 193, 7, 0.6);
+        }
+    }
+
+    .priority-hint-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
+        animation: none;
+    }
+
+    .priority-hint-btn.clicked {
+        animation: none;
+        background: linear-gradient(45deg, #28a745, #20c997);
+        color: white;
+    }
+
+    /* Priority Hint Popup - Improved */
+    .priority-hint-popup {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        min-width: 320px;
+        max-width: 400px;
+        opacity: 0;
+        transform: translateY(-20px);
+        pointer-events: none;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .priority-hint-popup.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: all;
+    }
+
+    .popup-header {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .popup-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .popup-close {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .popup-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+    }
+
+    .popup-content {
+        padding: 20px;
+    }
+
+    .popup-intro {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 15px;
+        line-height: 1.5;
+    }
+
+    .priority-tasks-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .priority-task-item {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 12px;
+        border-left: 4px solid;
+        transition: all 0.3s ease;
+    }
+
+    .priority-task-item:hover {
+        background: #e9ecef;
+        transform: translateX(5px);
+    }
+
+    .priority-task-item.urgent {
+        border-left-color: #dc3545;
+    }
+
+    .priority-task-item.high {
+        border-left-color: #fd7e14;
+    }
+
+    .priority-task-item.normal {
+        border-left-color: #28a745;
+    }
+
+    .task-item-title {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 4px;
+        font-size: 0.9rem;
+    }
+
+    .task-item-deadline {
+        font-size: 0.8rem;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .task-item-priority {
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-top: 5px;
+        padding: 2px 6px;
+        border-radius: 10px;
+        display: inline-block;
+    }
+
+    .task-item-priority.urgent {
+        background: #dc3545;
+        color: white;
+    }
+
+    .task-item-priority.high {
+        background: #fd7e14;
+        color: white;
+    }
+
+    .task-item-priority.normal {
+        background: #28a745;
+        color: white;
+    }
+
+    /* Responsive Design untuk Priority Hint */
+    @media (max-width: 768px) {
+        .priority-hint-container {
+            top: 80px;
+            right: 15px;
+        }
+        
+        .priority-hint-btn {
+            padding: 10px 16px;
+            font-size: 0.8rem;
+        }
+        
+        .priority-hint-popup {
+            right: -10px;
+            min-width: 280px;
+            max-width: 90vw;
+        }
+        
+        .popup-content {
+            padding: 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .priority-hint-container {
+            top: 70px;
+            right: 10px;
+        }
+        
+        .priority-hint-btn {
+            padding: 8px 12px;
+            font-size: 0.75rem;
+        }
+        
+        .priority-hint-popup {
+            right: -5px;
+            min-width: 260px;
+        }
+    }
+
+    
+    
+    
+    
+    
     @keyframes gradientBG {
         0% { background-position: 0% 50%; }
         50% { background-position: 100% 50%; }
@@ -1126,51 +1355,44 @@
     </div>
 </div>
 
+<!-- TAMBAHKAN KODE BARU INI -->
 @if ($suggestedTasks->count())
-<div id="priority-popup" class="animate-fade-in" style="z-index:10;">
-    <div class="priority-popup-header">
-        <div class="priority-popup-title">
-            <i class="fas fa-bell" style="color: #667eea;"></i>
-            <span>Saran Prioritas</span>
-        </div>
-        <button id="close-popup" class="priority-popup-close">&times;</button>
-    </div>
-    <div class="priority-popup-content">
-        @foreach ($suggestedTasks->take(3) as $task)
-        <div class="priority-item {{ $task->priority }}">
-            <div class="priority-item-title">{{ $task->title }}</div>
-            <div class="priority-item-deadline">
-                <i class="far fa-clock"></i>
-                <span>{{ \Carbon\Carbon::parse($task->deadline)->translatedFormat('d M Y') }}</span>
+<div class="priority-hint-container">
+    <button class="priority-hint-btn" id="priorityHintBtn">
+        <i class="fas fa-lightbulb"></i>
+        <span>Saran Prioritas</span>
+    </button>
+    
+    <div class="priority-hint-popup" id="priorityHintPopup">
+        <div class="popup-header">
+            <div class="popup-title">
+                <i class="fas fa-brain"></i>
+                <span>Saran Prioritas Tugas</span>
             </div>
-            <div class="priority-item-badge {{ $task->priority }}">
-                Prioritas: {{ ucfirst($task->priority) }}
+            <button class="popup-close" id="closePopup">&times;</button>
+        </div>
+        
+        <div class="popup-content">
+            <div class="popup-intro">
+                Berikut adalah tugas-tugas yang sebaiknya Anda prioritaskan berdasarkan deadline dan tingkat urgensi:
+            </div>
+            
+            <div class="priority-tasks-list" id="priorityTasksList">
+                @foreach ($suggestedTasks->take(3) as $task)
+                <div class="priority-task-item {{ $task->priority }}">
+                    <div class="task-item-title">{{ $task->title }}</div>
+                    <div class="task-item-deadline">
+                        <i class="far fa-clock"></i>
+                        <span>Deadline: {{ \Carbon\Carbon::parse($task->deadline)->diffForHumans() }}</span>
+                    </div>
+                    <div class="task-item-priority {{ $task->priority }}">{{ ucfirst($task->priority) }}</div>
+                </div>
+                @endforeach
             </div>
         </div>
-        @endforeach
     </div>
 </div>
 @endif
-<!-- Tombol dan Popup Saran Prioritas -->
-<div class="position-fixed top-0 end-0 m-3" style="z-index: 1050;">
-    <button id="priorityHintBtn" class="btn btn-warning fw-bold animate-blink shadow">
-        💡 Saran Prioritas
-    </button>
-    <div id="priorityHintPopup" class="card shadow-sm mt-2" style="min-width: 280px; display: none;">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <strong>Saran Prioritas</strong>
-            <button id="closeHint" class="btn btn-sm btn-outline-secondary">✕</button>
-        </div>
-        <div class="card-body">
-            <p class="mb-0">Berikut beberapa tugas yang sebaiknya Anda prioritaskan berdasarkan deadline terdekat dan tingkat urgensi:</p>
-            <ul class="mt-2">
-                <li>Tugas A (deadline: 2 hari lagi)</li>
-                <li>Tugas B (deadline: 3 hari lagi)</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
 <script>
     // Global functions
     function filterTasks(priority) {
@@ -1277,25 +1499,54 @@
         });
     });
 
-    // ===== Priority Hint Popup =====
-    const hintBtn = document.getElementById('priorityHintBtn');
-    const popup = document.getElementById('priorityHintPopup');
-    const closeBtn = document.getElementById('closeHint');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Priority Hint functionality
+        const hintBtn = document.getElementById('priorityHintBtn');
+        const popup = document.getElementById('priorityHintPopup');
+        const closeBtn = document.getElementById('closePopup');
+        let isPopupOpen = false;
 
-    hintBtn?.addEventListener('click', () => {
-        popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
-    });
+        if (hintBtn && popup) {
+            // Toggle popup
+            hintBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                if (!isPopupOpen) {
+                    popup.classList.add('show');
+                    hintBtn.classList.add('clicked');
+                    isPopupOpen = true;
+                } else {
+                    popup.classList.remove('show');
+                    hintBtn.classList.remove('clicked');
+                    isPopupOpen = false;
+                }
+            });
 
-    closeBtn?.addEventListener('click', () => {
-        popup.style.display = 'none';
-    });
+            // Close popup
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    popup.classList.remove('show');
+                    hintBtn.classList.remove('clicked');
+                    isPopupOpen = false;
+                });
+            }
 
-    document.addEventListener('click', (e) => {
-        if (!popup.contains(e.target) && e.target !== hintBtn) {
-            popup.style.display = 'none';
+            // Close popup when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!popup.contains(e.target) && e.target !== hintBtn) {
+                    popup.classList.remove('show');
+                    hintBtn.classList.remove('clicked');
+                    isPopupOpen = false;
+                }
+            });
+
+            // Stop blinking animation after first click
+            hintBtn.addEventListener('click', function() {
+                setTimeout(() => {
+                    hintBtn.style.animation = 'none';
+                }, 3000);
+            });
         }
-    });
-});
 
 
         // Initialize drag and drop for each column
