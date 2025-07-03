@@ -835,7 +835,7 @@
         transition: all 0.3s ease;
         cursor: move;
         position: relative;
-        overflow: hidden;
+        overflow: hidden,
         min-height: 120px;
         flex-shrink: 0;
         backdrop-filter: blur(5px);
@@ -1181,6 +1181,117 @@
     .board::-webkit-scrollbar-thumb:hover {
         background: rgba(255, 255, 255, 0.5);
     }
+
+/* ✅ IMPROVED: Loading and animation states untuk drag & drop */
+.task-updating {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.task-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #667eea;
+    z-index: 10;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+}
+
+.loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.task-update-success {
+    animation: successPulse 1s ease-in-out;
+    border-left-color: #28a745 !important;
+}
+
+@keyframes successPulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    }
+    50% { 
+        transform: scale(1.02);
+        box-shadow: 0 8px 30px rgba(40, 167, 69, 0.3);
+    }
+}
+
+.task-update-error {
+    animation: errorShake 0.5s ease-in-out;
+    border-left-color: #dc3545 !important;
+}
+
+@keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Improved drag states */
+.task-card.dragging {
+    opacity: 0.7;
+    transform: rotate(5deg) scale(1.05);
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.sortable-ghost {
+    opacity: 0.3;
+    background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+    border: 2px dashed #ccc;
+    transform: scale(0.95);
+}
+
+.task-card-chosen {
+    opacity: 0.9;
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.task-card-drag {
+    transform: rotate(8deg) scale(1.1);
+    z-index: 1001;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Column highlight when dragging over */
+.column.sortable-drag-over {
+    background: rgba(102, 126, 234, 0.1);
+    transform: scale(1.02);
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+}
+
+/* Smooth transitions */
+.task-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.column {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 </style>
 
 <div class="container" style="position:relative; z-index:2;">
@@ -1572,7 +1683,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         const columns = document.querySelectorAll('.column');
         
-        // ===== Drag & Drop =====
+        // ===== Improved Drag & Drop =====
         columns.forEach(function(column) {
             const sortable = new Sortable(column, {
                 group: 'kanban',
@@ -1582,41 +1693,160 @@
                 dragClass: 'task-card-drag',
                 filter: '.add-task-btn, .column-header, .text-muted, .task-actions',
                 preventOnFilter: false,
-                onStart(evt) {
-                    evt.item.classList.add('dragging');
-                },
-                onEnd(evt) {
-                    const item = evt.item;
-                    const newColumn = evt.to;
-                    const taskId = item.dataset.taskId;
-                    const newStatus = newColumn.dataset.status;
-
-                    if (!taskId || !newStatus) return;
-
-                    item.style.opacity = '0.6';
-                    item.style.pointerEvents = 'none';
-
-                    fetch(`/tasks/${taskId}/update-status`, {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                        },
-                        body: JSON.stringify({ status: newStatus })
-                    }).then(res => res.json())
-                    .then(data => {
-                        item.style.opacity = '1';
-                        item.style.pointerEvents = 'auto';
-                        if (data.success) {
-                            setTimeout(() => location.reload(), 1000);
-                        }
-                    }).catch(() => {
-                        item.style.opacity = '1';
-                        item.style.pointerEvents = 'auto';
-                    });
+            
+            onStart(evt) {
+                console.log('Drag started');
+                evt.item.classList.add('dragging');
+                
+                // Add visual feedback
+                evt.item.style.transform = 'rotate(5deg)';
+                evt.item.style.boxShadow = '0 8px 25px rgba(0,0,0,0.3)';
+            },
+            
+            onEnd(evt) {
+                console.log('Drag ended');
+                
+                const item = evt.item;
+                const newColumn = evt.to;
+                const oldColumn = evt.from;
+                const taskId = item.dataset.taskId;
+                const newStatus = newColumn.dataset.status;
+                const oldStatus = oldColumn.dataset.status;
+                
+                // Reset drag styles immediately
+                item.classList.remove('dragging');
+                item.style.transform = '';
+                item.style.boxShadow = '';
+                
+                // If dropped in same column, no need to update
+                if (newStatus === oldStatus) {
+                    console.log('Dropped in same column, no update needed');
+                    return;
                 }
-            });
+                
+                console.log('Task ID:', taskId, 'Old Status:', oldStatus, 'New Status:', newStatus);
+                
+                if (!taskId) {
+                    showNotification('Task ID tidak ditemukan.', 'error');
+                    return;
+                }
+                
+                if (!newStatus) {
+                    showNotification('Status kolom tidak valid.', 'error');
+                    return;
+                }
+
+                // Show loading state with better animation
+                item.style.position = 'relative';
+                item.style.overflow = 'hidden';
+                
+                // Create loading overlay
+                const loadingOverlay = document.createElement('div');
+                loadingOverlay.className = 'task-loading-overlay';
+                loadingOverlay.innerHTML = `
+                    <div class="loading-spinner"></div>
+                    <span>Memindahkan...</span>
+                `;
+                item.appendChild(loadingOverlay);
+                
+                // Add loading class
+                item.classList.add('task-updating');
+                
+                // Get CSRF token
+                const csrfToken = getCSRFToken();
+                if (!csrfToken) {
+                    showNotification('CSRF token tidak ditemukan.', 'error');
+                    removeLoadingState(item, loadingOverlay);
+                    return;
+                }
+
+                // Send update request
+                fetch(`/tasks/${taskId}/update-status`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({
+                        status: newStatus
+                    }),
+                    credentials: 'same-origin'
+                })
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Response data:', data);
+                    
+                    if (data.success) {
+                        // Success animation
+                        item.classList.add('task-update-success');
+                        showNotification('Task berhasil dipindahkan!', 'success');
+                        
+                        // Update stats without reload
+                        updateStats();
+                        updateFilterCounters();
+                        
+                        // Remove loading state with success animation
+                        setTimeout(() => {
+                            removeLoadingState(item, loadingOverlay);
+                            item.classList.remove('task-update-success');
+                        }, 1000);
+                        
+                    } else {
+                        // Error - move back to original position
+                        console.error('Server returned error:', data.message);
+                        moveTaskBack(item, oldColumn, newColumn);
+                        removeLoadingState(item, loadingOverlay);
+                        showNotification(data.message || 'Gagal memperbarui status task.', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    
+                    // Error - move back to original position
+                    moveTaskBack(item, oldColumn, newColumn);
+                    removeLoadingState(item, loadingOverlay);
+                    showNotification('Terjadi kesalahan saat memperbarui status.', 'error');
+                });
+            }
         });
+    });
+
+    // Helper function to remove loading state
+    function removeLoadingState(item, loadingOverlay) {
+        item.classList.remove('task-updating');
+        if (loadingOverlay && loadingOverlay.parentNode) {
+            loadingOverlay.remove();
+        }
+        item.style.position = '';
+        item.style.overflow = '';
+    }
+
+    // Helper function to move task back to original position
+    function moveTaskBack(item, oldColumn, newColumn) {
+        console.log('Moving task back to original position');
+        
+        // Add error animation
+        item.classList.add('task-update-error');
+        
+        // Move back with animation
+        setTimeout(() => {
+            if (oldColumn && oldColumn !== newColumn) {
+                oldColumn.appendChild(item);
+            }
+            item.classList.remove('task-update-error');
+        }, 500);
+    }
+
+    // Rest of the existing code...
+    // (Priority Hint Popup Handling, Modal handlers, etc.)
 
         // ===== Priority Hint Popup Handling =====
         const hintBtn = document.getElementById('priorityHintBtn');
