@@ -280,8 +280,7 @@
 
                 <!-- Footer Links -->
                 <div class="mt-6 text-center text-sm text-purple-200">
-                    <a href="{{ route('register') }}" class="hover:text-white transition-colors font-bold underline">Daftar akun baru</a>
-                    <div class="mt-2 text-xs text-purple-100">Belum punya akun? Daftar dengan email baru atau Google baru.</div>
+                    <div class="mt-2 text-xs text-purple-100">Belum punya akun? Daftar dengan Google baru.</div>
                 </div>
             </div>
         </div>
